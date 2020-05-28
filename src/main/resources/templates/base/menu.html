@@ -1,0 +1,43 @@
+<nav class="header-navbar navbar-expand-lg navbar navbar-with-menu navbar-without-dd-arrow fixed-top navbar-semi-dark navbar-shadow">
+        <div class="navbar-wrapper">
+            <div class="navbar-header">
+                <ul class="nav navbar-nav flex-row">
+                    <li class="nav-item mobile-menu d-lg-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
+                    <li class="nav-item mr-auto"><a class="navbar-brand" th:href="@{/}">
+                            <h3 class="brand-text">Mercadão</h3>
+                        </a>
+                  	</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
+        <div class="main-menu-content">
+            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+                <li th:class="${currentPage == 'home' ? 'active' : ''}">
+                	<a th:href="@{/}">
+                		<i class="fa fa-home"></i>
+                		<span class="menu-title ml-2">Início</span>
+                	</a>
+                </li>
+                <li th:class="${currentPage == 'client' ? 'active' : ''}">
+                	<a th:href="@{/clientes}">
+               			<i class="fa fa-user"></i>
+                		<span class="menu-title ml-2">Clientes</span>
+               		</a>
+                </li>
+                 <li th:class="${currentPage == 'provider' ? 'active' : ''}">
+                	<a th:href="@{/fornecedores}">
+               			<i class="fa fa-user"></i>
+                		<span class="menu-title ml-2">Fornecedores</span>
+               		</a>
+                </li>
+                 <li th:class="${currentPage == 'seller' ? 'active' : ''}">
+                	<a th:href="@{/vendedores}">
+               			<i class="fa fa-user"></i>
+                		<span class="menu-title ml-2">Vendedores</span>
+               		</a>
+                </li>
+            </ul>
+        </div>
+    </div>

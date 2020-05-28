@@ -1,0 +1,140 @@
+p, h2, h3, h1, span:not(.material-icons), label{
+	font-family: 'Poppins', sans-serif !important;
+}
+
+*:focus{
+	outline: none !important;
+}
+
+.fs-20{
+	font-size: 20px;
+}
+
+input{
+	border: 1px solid;
+    border-radius: 20px;
+    padding: 5px 20px;
+    background-color: transparent;
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
+    url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
+    url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+#sidenav-of-creation{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 60%;
+    -webkit-box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    background-color: #f2f2f2;
+    z-index: 9999;
+    display: none;
+}
+#sidenav-of-creation #sidenav-body, #sidenav-of-creation #sidenav-header, #sidenav-of-creation #sidenav-body .body-content{
+	padding: 20px 30px;
+}
+
+#sidenav-of-creation #sidenav-header{
+    border-bottom: 1px solid #e2e2e2;
+    display: flex;
+}
+
+#sidenav-of-creation #sidenav-body .body-content{
+    background-color: #fff;
+    border-radius: 10px;
+    height: 50%;
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+#sidenav-of-creation #sidenav-body .body-content input{
+    border: 1px solid #e2e2e2;
+    padding: 8px 25px;
+    border-radius: 10px;
+    width: 100%;
+}
+
+#sidenav-of-creation #sidenav-body .body-content label{
+	text-transform: uppercase;
+	font-size: 12px;
+}
+
+#sidenav-of-creation #sidenav-body .body-content button{
+	border: 1px solid #2C303B;
+	background-color: #2C303B;
+	color: #fff;
+	text-transform: uppercase;
+	transition: all .2s;
+	padding: 10px 20px;
+	border-radius: 20px;
+}
+
+#sidenav-of-creation #sidenav-body .body-content button:hover{
+	background-color: transparent;
+	color: #2C303B;
+}
+
+#floating-button{
+	position: fixed;
+	z-index: 9999;
+	right: 20px;
+	bottom: 20px
+}
+
+#floating-button button{
+	border-radius: 50%;
+	background-color: #333333;
+	padding: 10px 12px;
+	border: 1px solid #333333;
+	transition: all .2s;
+}
+
+#floating-button button:hover{
+	background-color: transparent;
+}
+
+#floating-button button:hover i{
+	color: #333333;	
+}
+
+#floating-button button i{
+	color: #fff;
+	font-weight: 600;
+	font-size: 20px;
+}
+
+.overlay{
+    background-color: rgba(0,0,0,.6);
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.action-button{
+	padding: 5px;
+	font-size: 1rem;
+	border-radius: 5px;
+	transition: all .2s;
+}
+
+.action-button.remove-data{
+	border: 1px solid #FF1635;
+	background-color: #FF1635;
+	color: #fff;	
+}
+
+
