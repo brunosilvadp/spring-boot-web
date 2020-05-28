@@ -1,15 +1,15 @@
 package com.bruno.boticario.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.apache.coyote.http11.Http11AprProtocol;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,12 +38,21 @@ public class ProductBiz {
 		this.saleItemrepository = saleItemrepository;
 	}
 
+	@GetMapping("produtos")
+	public String index(Model model) {
+		
+		model.addAttribute("page", "product/index");
+		model.addAttribute("currentPage", "product");
+		
+		return "base/app";
+	}
+
 	@PostMapping("product/store")
 	@ResponseBody
-	public ResponseEntity<Product> store(@RequestBody Product product) {
-		product.setRegisterDate(DateTime.now());
+	public ResponseEntity<String> store(@RequestBody Product product) {
+		product.setRegisterDate(new Date());
 		repository.save(product);
-		return ResponseEntity.ok(product);
+		return ResponseEntity.ok("Produto adicionado com sucesso!");
 	}
 	
 	@DeleteMapping("product/destroy")

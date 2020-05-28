@@ -38,6 +38,12 @@
                 		<span class="menu-title ml-2">Vendedores</span>
                		</a>
                 </li>
+                 <li th:class="${currentPage == 'product' ? 'active' : ''}">
+                	<a th:href="@{/produtos}">
+               			<i class="fa fa-user"></i>
+                		<span class="menu-title ml-2">Produtos</span>
+               		</a>
+                </li>
             </ul>
         </div>
     </div>

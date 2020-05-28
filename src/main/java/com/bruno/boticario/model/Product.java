@@ -1,45 +1,49 @@
 package com.bruno.boticario.model;
 
-import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Date;
 
-import deserialize.ProductDeserialize;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Bruno Silva
  *
  */
-@Document
-@JsonDeserialize(using = ProductDeserialize.class)
+@Document("products")
 public class Product implements Comparable<Product>{
 	@Id
-	
-	private String _id;
+	private String code;
 	private String name;
 	private Double unitPrice;
 	private Integer stock;
 	private Integer minimumStock;
 	@Field("created_at")
-	private DateTime registerDate;
+	private Date registerDate;
 
-	public Product(String name, Double unitPrice, Integer stock, Integer minimumStock) {
-		this.name = name;
-		this.unitPrice = unitPrice;
-		this.stock = stock;
-		this.minimumStock = minimumStock;
-	}
 	@PersistenceConstructor
 	public Product() {
 		
 	}
 	
-	public Product(String _id, String name, Double unitPrice, Integer stock, Integer minimumStock) {
-		this._id = _id;
+	@JsonCreator
+    public Product(
+            @JsonProperty("name") String name, 
+            @JsonProperty("unitPrice") Double unitPrice, 
+            @JsonProperty("stock") Integer stock, 
+            @JsonProperty("minimumStock") Integer minimumStock){
+		this.name = name;
+		this.unitPrice = unitPrice;
+		this.stock = stock;
+		this.minimumStock = minimumStock;
+    }
+
+	public Product(String code, String name, Double unitPrice, Integer stock, Integer minimumStock) {
+		this.code = code;
 		this.name = name;
 		this.unitPrice = unitPrice;
 		this.stock = stock;
@@ -47,7 +51,7 @@ public class Product implements Comparable<Product>{
 	}
 
 	public String getCode() {
-		return _id;
+		return code;
 	}
 
 	public String getName() {
@@ -82,11 +86,11 @@ public class Product implements Comparable<Product>{
 		this.minimumStock = minimumStock;
 	}
 
-	public DateTime getRegisterDate() {
+	public Date getRegisterDate() {
 		return registerDate;
 	}
 
-	public void setRegisterDate(DateTime registerDate) {
+	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
 	}
 	
