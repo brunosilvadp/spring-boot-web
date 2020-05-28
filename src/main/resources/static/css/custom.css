@@ -29,7 +29,7 @@ input{
     url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
 }
 
-#sidenav-of-creation{
+.custom-sidenav{
     position: fixed;
     top: 0;
     bottom: 0;
@@ -40,17 +40,18 @@ input{
     background-color: #f2f2f2;
     z-index: 9999;
     display: none;
+    overflow: auto;
 }
-#sidenav-of-creation #sidenav-body, #sidenav-of-creation #sidenav-header, #sidenav-of-creation #sidenav-body .body-content{
+.custom-sidenav .sidenav-body, .custom-sidenav .sidenav-header, .custom-sidenav .sidenav-body .body-content{
 	padding: 20px 30px;
 }
 
-#sidenav-of-creation #sidenav-header{
+.custom-sidenav .sidenav-header{
     border-bottom: 1px solid #e2e2e2;
     display: flex;
 }
 
-#sidenav-of-creation #sidenav-body .body-content{
+.custom-sidenav .sidenav-body .body-content{
     background-color: #fff;
     border-radius: 10px;
     height: 50%;
@@ -58,19 +59,19 @@ input{
     box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
 
-#sidenav-of-creation #sidenav-body .body-content input{
+.custom-sidenav .sidenav-body .body-content input{
     border: 1px solid #e2e2e2;
     padding: 8px 25px;
     border-radius: 10px;
     width: 100%;
 }
 
-#sidenav-of-creation #sidenav-body .body-content label{
+.custom-sidenav .sidenav-body .body-content label{
 	text-transform: uppercase;
 	font-size: 12px;
 }
 
-#sidenav-of-creation #sidenav-body .body-content button{
+.custom-sidenav .sidenav-body .body-content button{
 	border: 1px solid #2C303B;
 	background-color: #2C303B;
 	color: #fff;
@@ -80,7 +81,7 @@ input{
 	border-radius: 20px;
 }
 
-#sidenav-of-creation #sidenav-body .body-content button:hover{
+.custom-sidenav .sidenav-body .body-content button:hover{
 	background-color: transparent;
 	color: #2C303B;
 }
@@ -132,9 +133,13 @@ input{
 }
 
 .action-button.remove-data{
-	border: 1px solid #FF1635;
-	background-color: #FF1635;
-	color: #fff;	
+	border: 1px solid #FF1635 !important;
+	background-color: #FF1635 !important;
+	color: #fff !important;	
 }
 
-
+.action-button.add-data{
+	border: 1px solid #28D094 !important;
+	background-color: #28D094 !important;
+	color: #fff !important;	
+}

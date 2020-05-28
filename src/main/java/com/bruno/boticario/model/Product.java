@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Document("products")
 public class Product implements Comparable<Product>{
 	@Id
+	private String id;
 	private String code;
 	private String name;
 	private Double unitPrice;
@@ -32,17 +33,20 @@ public class Product implements Comparable<Product>{
 	
 	@JsonCreator
     public Product(
-            @JsonProperty("name") String name, 
+            @JsonProperty("code") String code,
+			@JsonProperty("name") String name, 
             @JsonProperty("unitPrice") Double unitPrice, 
             @JsonProperty("stock") Integer stock, 
             @JsonProperty("minimumStock") Integer minimumStock){
+		this.code = code;
 		this.name = name;
 		this.unitPrice = unitPrice;
 		this.stock = stock;
 		this.minimumStock = minimumStock;
     }
 
-	public Product(String code, String name, Double unitPrice, Integer stock, Integer minimumStock) {
+	public Product(String id, String code, String name, Double unitPrice, Integer stock, Integer minimumStock) {
+		this.id = id;
 		this.code = code;
 		this.name = name;
 		this.unitPrice = unitPrice;
@@ -50,8 +54,16 @@ public class Product implements Comparable<Product>{
 		this.minimumStock = minimumStock;
 	}
 
+	public String getId() {
+		return id;
+	}
+
 	public String getCode() {
 		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getName() {
@@ -107,7 +119,7 @@ public class Product implements Comparable<Product>{
 
 	@Override
 	public String toString() {
-		return "Product [code=" + _id + ", name=" + name + ", unitPrice=" + unitPrice + ", stock=" + stock
+		return "Product [id=" + id + ", code=" + code + " name=" + name + ", unitPrice=" + unitPrice + ", stock=" + stock
 				+ ", minimumStock=" + minimumStock + ", registerDate=" + registerDate + "]";
 	}
 	

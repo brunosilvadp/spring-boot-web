@@ -34,12 +34,12 @@ public class PurchaseBiz {
 
 	@PostMapping("purchase/store")
 	@ResponseBody
-	public ResponseEntity<Purchase> store(@RequestBody Purchase purchase) {
+	public ResponseEntity<String> store(@RequestBody Purchase purchase) {
 		ArrayList<PurchaseItem> purchaseItemList = new ArrayList<PurchaseItem>();
 				
 		for (PurchaseItem purchaseItem : purchase.getPurchaseItem()) {
 			Product product = purchaseItem.getProduct();
-			product = productRepository.findById(product.getCode()).get();
+			product = productRepository.findById(product.getId()).get();
 			product.stockIncrement(purchaseItem.getPurchaseQuantity());
 			productRepository.save(product);
 			purchaseItem.setProduct(product);
@@ -48,7 +48,7 @@ public class PurchaseBiz {
 		
 		purchase.setPurchaseItem(purchaseItemList);
 		repository.save(purchase);
-		return ResponseEntity.ok(purchase);
+		return ResponseEntity.ok("Compra cadastrada com sucesso!");
 	}
 	
 	@DeleteMapping("purchase/destroy")

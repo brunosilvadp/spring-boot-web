@@ -1,5 +1,6 @@
 package com.bruno.boticario.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -52,7 +53,7 @@ public class ClientBiz {
 		if(!clientList.isEmpty()) {
 			return ResponseEntity.status(500).body("CPF já cadastrado");
 		}
-		client.setRegisterDate(DateTime.now());
+		client.setRegisterDate(new Date());
 		client = repository.save(client);
 		return ResponseEntity.ok("Cliente cadastrado com sucesso!");
 	}

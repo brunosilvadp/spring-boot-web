@@ -77,12 +77,11 @@ public class ProductBiz {
 	@GetMapping("product/find")
 	@ResponseBody
 	ResponseEntity<Object> find(@RequestParam String code) {
-		try {
-			Product product = repository.findById(code).get();
-			return ResponseEntity.ok(product);
-		} catch (NoSuchElementException e) {
+		Product product = repository.findOneByCode(code);
+		if(product == null){
 			return ResponseEntity.status(500).body("Produto não encontrado");
 		}
+		return ResponseEntity.ok(product);
 	}
 	
 	@GetMapping("product/list")

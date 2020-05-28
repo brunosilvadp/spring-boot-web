@@ -4,6 +4,8 @@ import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -27,7 +29,7 @@ public abstract class Person implements Comparable<Person>{
 	private String phone;
 	private String email;
 	@Field("created_at")
-	private DateTime registerDate;
+	private Date registerDate;
 
 	public Person(String name, String phone, String email) {
 		this.name = name;
@@ -73,11 +75,11 @@ public abstract class Person implements Comparable<Person>{
 		this.email = email;
 	}
 
-	public DateTime getRegisterDate() {
+	public Date getRegisterDate() {
 		return registerDate;
 	}
 
-	public void setRegisterDate(DateTime registerDate) {
+	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
 	}
 

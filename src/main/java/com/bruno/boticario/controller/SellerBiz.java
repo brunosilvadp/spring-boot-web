@@ -1,5 +1,6 @@
 package com.bruno.boticario.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -52,7 +53,7 @@ public class SellerBiz {
 			return ResponseEntity.status(500).build();
 		}
 		
-		seller.setRegisterDate(DateTime.now());
+		seller.setRegisterDate(new Date());
 		seller = repository.save(seller);
 		return ResponseEntity.ok(seller);
 	}

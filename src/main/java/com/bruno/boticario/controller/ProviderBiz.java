@@ -1,5 +1,6 @@
 package com.bruno.boticario.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -52,7 +53,7 @@ public class ProviderBiz {
 		if(!providerList.isEmpty()) {
 			return ResponseEntity.status(500).body("CNPJ já cadastrado");
 		}
-		provider.setRegisterDate(DateTime.now());
+		provider.setRegisterDate(new Date());
 		provider = repository.save(provider);
 		return ResponseEntity.ok("Fornecedor cadastrado com sucesso!");
 	}
