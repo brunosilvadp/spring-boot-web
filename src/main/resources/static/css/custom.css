@@ -10,7 +10,7 @@ p, h2, h3, h1, span:not(.material-icons), label{
 	font-size: 20px;
 }
 
-input{
+input, select{
 	border: 1px solid;
     border-radius: 20px;
     padding: 5px 20px;
@@ -59,7 +59,7 @@ input{
     box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
 
-.custom-sidenav .sidenav-body .body-content input{
+.custom-sidenav .sidenav-body .body-content input, .custom-sidenav .sidenav-body .body-content select{
     border: 1px solid #e2e2e2;
     padding: 8px 25px;
     border-radius: 10px;

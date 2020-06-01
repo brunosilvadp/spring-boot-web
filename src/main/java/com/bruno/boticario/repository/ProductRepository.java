@@ -1,6 +1,6 @@
 package com.bruno.boticario.repository;
 
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,4 +16,7 @@ public interface ProductRepository extends MongoRepository<Product, String>{
 	Optional<Product> findById(String id);
     
     Product findOneByCode(String code);
+
+    @Query("{ 'stock' : {$lt : 'minimumStock'} }")
+    List<Product> findByStockLowerMinimum(Sort sort);
 }

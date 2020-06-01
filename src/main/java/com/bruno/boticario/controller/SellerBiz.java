@@ -44,18 +44,20 @@ public class SellerBiz {
 	
 	@PostMapping("seller/store")
 	@ResponseBody
-	public ResponseEntity<Seller> store(@RequestBody Person person) {
+	public ResponseEntity<String> store(@RequestBody Person person) {
 		Seller seller = (Seller) person;
 		System.out.println(seller.getCpf());
 		List<Seller> listSeller = repository.findByCpf(seller.getCpf());
 		
-		if(!listSeller.isEmpty() || seller.getMonthlyGoal() <= 0) {
-			return ResponseEntity.status(500).build();
+		if(!listSeller.isEmpty()){
+			return ResponseEntity.status(500).body("CPF já cadastrado!");
+		}else if(seller.getMonthlyGoal() <= 0){
+			return ResponseEntity.status(500).body("A meta mensal não pode ser igual ou menor que R$0,00");
 		}
 		
 		seller.setRegisterDate(new Date());
 		seller = repository.save(seller);
-		return ResponseEntity.ok(seller);
+		return ResponseEntity.ok("Vendedor cadastrado com sucesso!");
 	}
 	
 	@DeleteMapping("seller/destroy")

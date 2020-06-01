@@ -4,17 +4,50 @@ $('document').ready(function(){
 	$('#credit-limit').mask("#.##0,00", {reverse: true});
 	
 	
-	$('#floating-button > button, .close-sidenav').click(function(){
-		if($('.overlay').length){
-			$('.overlay').remove();
-		}else{
-			$('body').append('<div class="overlay"></div>');			
-		}
-		$('#sidenav-of-creation').toggle("slide", { direction: "right" }, 300);
+	$('.close-sidenav').click(function(){
+		showSidenav($(this).data('sidenav'));
 	})
 	
-	
-	
+	$('#sale-form').submit(function(e){
+		e.preventDefault();
+		let arrayData = $(this).serializeArray();
+		let data = {
+			"client": table.row($('input[name="client-position"]').val()).data(),
+			'seller': sellerTable.row('.selected').data()
+		};
+
+		arrayData.forEach((value) => {
+			data[value.name] = value.value;
+		})
+		data['saleItem'] = [];
+		shoppingTable.rows().data().map(item => {
+			let object = {
+				'product': item,
+				'saleQuantity': parseInt(item.quantity),
+				'saleValue': item.unitPrice * item.quantity
+			}
+			delete object.product.quantity;
+			data['saleItem'].push(object);
+		})
+		$.ajax({
+			method: "POST",
+			headers: { 
+		        'Content-Type': 'application/json' 
+		    },
+			url: "/sale/store",
+			data: JSON.stringify(data),
+			success: function(response){
+				$('#sale-sidenav .close-sidenav').trigger('click');
+				shoppingTable.clear().draw();
+				showNotification('success', response);
+				$('#sale-form')[0].reset();
+			},
+			error: function(response){
+				showNotification('error', response.responseText);
+			}
+		});
+	})
+
 	$('#client-form').submit(function(e){
 		e.preventDefault();
 		
@@ -34,17 +67,27 @@ $('document').ready(function(){
 			url: "/client/store",
 			data: JSON.stringify(data),
 			success: function(response){
-				$('.close-sidenav').trigger('click');
+				showSidenav("#sidenav-of-creation");
 				table.ajax.reload();
 				showNotification('success', response);
 				$('#client-form')[0].reset();
 			},
 			error: function(response){
-				console.log(response);
 				showNotification('error', response.responseText);
 			}
 		});
 	})
+
+	$('#seller-table tbody').on( 'click', 'tr', function () {
+		if($(this).hasClass('selected')){
+      		$(this).removeClass('selected');
+		}else{
+			if($('#seller-table tbody tr.selected').length){
+				$('#seller-table tbody tr.selected').removeClass('selected');
+			}
+			$(this).addClass('selected'); 
+		}
+    });
 })
 
 function removeClient(row){
@@ -67,3 +110,40 @@ function removeClient(row){
 	});
 };
 
+function addProduct(){
+	let productCode = $('#productCode');
+	let quantity = $('#quantity');
+
+		$.ajax({
+			method: "GET",
+			headers: { 
+				'Content-Type': 'application/json' 
+			},
+			url: `product/find?code=${productCode.val()}`,
+			success: function(response){
+				response['quantity'] = quantity.val();
+				let shoppingData = shoppingTable.rows().data();
+				if(shoppingData.filter(item => item.code == response.code).length && shoppingData.data().count()){
+					showNotification('error', "Produto já adicionado");
+				}else{
+					productCode.val('')
+					quantity.val('')
+					shoppingTable.row.add(response).draw(false);
+				}
+
+			},
+			error: function(response){
+				showNotification('error', response.responseText);
+			}
+		})
+}
+
+function removeProduct(row){
+	shoppingTable.row(row).remove().draw();	
+}
+
+function showSaleSidenav(row){
+	$('#sale-form input[name="clientName"]').val(table.row(row).data().name);
+	$('#sale-form input[name="client-position"]').val(row);
+	showSidenav('#sale-sidenav');
+}

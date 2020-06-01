@@ -2,11 +2,6 @@ $('document').ready(function(){
 	$('#phone').mask('(00) 0 0000-0000');
 	$('#cnpj').mask('00.000.000/0000-00', {reverse: true});
 	
-	
-	$('#floating-button > button').click(function(){
-		showSidenav('#sidenav-of-creation');
-	})
-
 	$('.close-sidenav').click(function(){
 		showSidenav($(this).data('sidenav'));
 	})
@@ -106,15 +101,6 @@ function addProduct(){
 				showNotification('error', response.responseText);
 			}
 		})
-}
-
-function showSidenav(sidenav){
-	if($('.overlay').length){
-		$('.overlay').remove();
-	}else{
-		$('body').append('<div class="overlay"></div>');			
-	}
-	$(sidenav).toggle("slide", { direction: "right" }, 300);
 }
 
 function showShoppingSidenav(row){

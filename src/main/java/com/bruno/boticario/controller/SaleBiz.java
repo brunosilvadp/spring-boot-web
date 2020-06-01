@@ -43,7 +43,7 @@ public class SaleBiz {
 		
 		for (SaleItem saleItem : sale.getSaleItem()) {
 			Product product = saleItem.getProduct();
-			product = productRepository.findById(product.getCode()).get();
+			product = productRepository.findById(product.getId()).get();
 			product.stockDecrement(saleItem.getSaleQuantity());
 			productRepository.save(product);
 			saleItem.setProduct(product);

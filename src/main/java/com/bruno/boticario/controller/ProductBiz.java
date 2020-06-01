@@ -2,9 +2,6 @@ package com.bruno.boticario.controller;
 
 import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
-
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.bruno.boticario.model.Product;
 import com.bruno.boticario.model.PurchaseItem;
 import com.bruno.boticario.model.SaleItem;
@@ -89,5 +85,12 @@ public class ProductBiz {
 	ResponseEntity<List<Product>> listProducts() {
 		List<Product> productList = repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
 		return ResponseEntity.ok(productList);
+	}
+
+	@GetMapping("product/list/stock")
+	@ResponseBody
+	ResponseEntity<List<Product>> listByStockLowerMinimum(){
+		List<Product> productList = repository.findByStockLowerMinimum(Sort.by(Sort.Direction.ASC, "name"));
+		return ResponseEntity.status(500).build();
 	}
 }

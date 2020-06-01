@@ -9,3 +9,12 @@ function showNotification(type, message){
 		timeout: 3000
 	}).show();
 }
+
+function showSidenav(sidenav){
+	if($('.overlay').length){
+		$('.overlay').remove();
+	}else{
+		$('body').append('<div class="overlay"></div>');			
+	}
+	$(sidenav).toggle("slide", { direction: "right" }, 300);
+}
