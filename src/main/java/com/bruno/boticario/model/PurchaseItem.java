@@ -1,7 +1,14 @@
 package com.bruno.boticario.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,12 +17,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Bruno Silva
  *
  */
+@Entity
+@Table(name = "purchase_items")
 public class PurchaseItem {
 	@Id
-	private String purchaseCode;
-	@DBRef
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "product_id", referencedColumnName = "id")
 	private Product product;
+	@Column(name = "purchase_quantity")
 	private Integer purchaseQuantity;
+	@Column(name = "purchase_value")
 	private Double purchaseValue;
 	
 //	public PurchaseItem(Product product, Integer purchaseQuantity, Double purchaseValue) {
@@ -33,8 +46,8 @@ public class PurchaseItem {
 		this.purchaseValue = purchaseValue;
 	}
 	
-	public String getPurchaseCode() {
-		return purchaseCode;
+	public Long getPurchaseCode() {
+		return id;
 	}
 	
 	public Product getProduct() {

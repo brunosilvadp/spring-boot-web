@@ -1,11 +1,14 @@
 package com.bruno.boticario.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,12 +57,19 @@ public class SaleBiz {
 		repository.save(sale);
 		return ResponseEntity.ok(sale);
 	}
-	
+
+	@GetMapping("list/client/sale")
+	@ResponseBody
+	ResponseEntity<List<Sale>> listSalesByClientAndPeriod(@RequestParam String name, @RequestParam Date startDate, @RequestParam Date endDate){
+		// List<Sale> saleList = repository.findByClientAndSaleDate(name, startDate, endDate);
+		return ResponseEntity.status(500).build();
+	}
+
 	@DeleteMapping("sale/destroy")
 	@ResponseBody
-	public ResponseEntity<String> destroy(@RequestParam String code){
+	public ResponseEntity<String> destroy(@RequestParam Long code){
 		Sale sale = repository.findById(code).get();
-		ArrayList<SaleItem> saleItemList = sale.getSaleItem();
+		List<SaleItem> saleItemList = sale.getSaleItem();
 		for (SaleItem saleItem : saleItemList) {
 			Product product = saleItem.getProduct(); 
 			product.stockIncrement(saleItem.getSaleQuantity());

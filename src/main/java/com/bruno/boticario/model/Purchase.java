@@ -2,12 +2,20 @@ package com.bruno.boticario.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,19 +24,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Bruno Silva
  *
  */
-@Document("purchases")
+@Entity
+@Table(name = "purchases")
 public class Purchase {
 
 	@Id
-	private String purchaseNumber;
-	@DBRef
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@ManyToOne
 	private Provider provider;
-	@DBRef
-	private ArrayList<PurchaseItem> purchaseItem;
-	@Field("purchase_date")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "purchase_id", referencedColumnName = "id")
+	private List<PurchaseItem> purchaseItem;
+	@Column(name = "purchase_date")
 	private Date purchaseDate;
 	
-	public Purchase(Provider provider, ArrayList<PurchaseItem> purchaseItem) {
+	public Purchase(Provider provider, List<PurchaseItem> purchaseItem) {
 		this.provider = provider;
 		this.purchaseItem = purchaseItem;
 	}
@@ -48,8 +59,8 @@ public class Purchase {
 		this.purchaseDate = purchaseDate;
     }
 
-	public String getPurchaseNumber() {
-		return purchaseNumber;
+	public Long getPurchaseNumber() {
+		return id;
 	}
 
 
@@ -61,11 +72,11 @@ public class Purchase {
 		this.provider = provider;
 	}
 
-	public ArrayList<PurchaseItem> getPurchaseItem() {
+	public List<PurchaseItem> getPurchaseItem() {
 		return purchaseItem;
 	}
 
-	public void setPurchaseItem(ArrayList<PurchaseItem> purchaseItem) {
+	public void setPurchaseItem(List<PurchaseItem> purchaseItem) {
 		this.purchaseItem = purchaseItem;
 	}
 
@@ -79,7 +90,7 @@ public class Purchase {
 
 	@Override
 	public String toString() {
-		return "Purchase [purchaseNumber=" + purchaseNumber + ", provider=" + provider + ", purchaseDate="
+		return "Purchase [purchaseNumber=" + id + ", provider=" + provider + ", purchaseDate="
 				+ purchaseDate + "]";
 	}
 	

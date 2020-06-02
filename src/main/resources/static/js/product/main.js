@@ -47,13 +47,12 @@ $('document').ready(function(){
 })
 
 function removeProduct(code, row){
-	let data = { code };
 	$.ajax({
 		method: "DELETE",
 		headers: { 
 	        'Content-Type': 'application/json' 
 	    },
-		url: `/product/destroy?code=${code}`,
+		url: `/product/destroy?id=${code}`,
 		success: function(response){
 			table.row(row).remove().draw();
 			showNotification('success', response);

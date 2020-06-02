@@ -8,9 +8,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.node.IntNode;
 
 public class ProductDeserialize extends StdDeserializer<Product>{
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public ProductDeserialize() {
 		this(null);

@@ -1,11 +1,21 @@
 package com.bruno.boticario.model;
 
 import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -13,13 +23,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * @author Bruno Silva
  *
  */
-@Document("sellers")
 @JsonTypeName("seller")
+@Entity
+@Table(name = "sellers")
 public class Seller extends Person {
-	@Indexed(unique=true)
+	@Id
+	@JsonIgnore
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	private String cpf;
-	@Field("monthly_goal")
+	@Column(name = "monthly_goal")
 	private Double monthlyGoal;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "seller_id", referencedColumnName = "id")
+	private List<Sale> saleList;
 
 	public Seller(String name, String phone, String email, String cpf,
 			Double monthlyGoal) {
@@ -35,16 +52,21 @@ public class Seller extends Person {
 	
 	@JsonCreator
     public Seller(
-    		@JsonProperty("code") String code,
+    		@JsonProperty("id") Long id,
     		@JsonProperty("name") String name, 
             @JsonProperty("phone") String phone, 
             @JsonProperty("email") String email, 
             @JsonProperty("cpf") String cpf,
             @JsonProperty("monthlyGoal") Double monthlyGoal) {
-        super(code, name, phone, email);
+        super(name, phone, email);
+		this.id = id;
         this.cpf = cpf;
 		this.monthlyGoal = monthlyGoal;
     }
+
+	public Long getId() {
+		return id;
+	}
 
 	public String getCpf() {
 		return cpf;

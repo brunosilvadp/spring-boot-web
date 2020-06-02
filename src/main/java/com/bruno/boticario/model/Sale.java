@@ -1,13 +1,20 @@
 package com.bruno.boticario.model;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,23 +23,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Bruno Silva
  *
  */
-@Document("sales")
+@Entity
+@Table(name = "sales")
 public class Sale {
 	
 	@Id
-	private String saleNumber;
-	@DBRef
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@ManyToOne
 	private Client client;
-	@DBRef
+	@ManyToOne
 	private Seller seller;
-	@DBRef
-	private ArrayList<SaleItem> saleItem;
-	@Field("payment_method")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "sale_id", referencedColumnName = "id")
+	private List<SaleItem> saleItem;
+	@Column(name = "payment_method")
 	private Integer paymentMethod;
-	@Field("sale_date")
+	@Column(name = "sale_date")
 	private Date saleDate;
 
-	public Sale(Client client, Seller seller, ArrayList<SaleItem> saleItem,
+	public Sale(Client client, Seller seller, List<SaleItem> saleItem,
 			Integer paymentMethod) {
 		this.client = client;
 		this.seller = seller;
@@ -49,7 +59,7 @@ public class Sale {
     public Sale(
             @JsonProperty("client") Client client, 
             @JsonProperty("seller") Seller seller, 
-            @JsonProperty("saleItem") ArrayList<SaleItem> saleItem, 
+            @JsonProperty("saleItem") List<SaleItem> saleItem, 
             @JsonProperty("paymentMethod") Integer paymentMethod,
             @JsonProperty("saleDate") Date saleDate) {
 		this.client = client;
@@ -59,8 +69,8 @@ public class Sale {
 		this.saleDate = saleDate;
     }
 
-	public String getSaleNumber() {
-		return saleNumber;
+	public Long getId() {
+		return id;
 	}
 
 	public Client getClient() {
@@ -81,11 +91,11 @@ public class Sale {
 
 	
 
-	public ArrayList<SaleItem> getSaleItem() {
+	public List<SaleItem> getSaleItem() {
 		return saleItem;
 	}
 
-	public void setSaleItem(ArrayList<SaleItem> saleItem) {
+	public void setSaleItem(List<SaleItem> saleItem) {
 		this.saleItem = saleItem;
 	}
 
@@ -115,7 +125,7 @@ public class Sale {
 
 	@Override
 	public String toString() {
-		return "Sale [saleNumber=" + saleNumber + ", client=" + client + ", seller=" + seller + ", purchaseItem="
+		return "Sale [saleNumber=" + id + ", client=" + client + ", seller=" + seller + ", purchaseItem="
 				+ saleItem + ", paymentMethod=" + paymentMethod + ", saleDate=" + saleDate + "]";
 	}
 

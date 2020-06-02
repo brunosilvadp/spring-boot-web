@@ -3,9 +3,7 @@ package com.bruno.boticario.controller;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,7 +74,7 @@ public class SellerBiz {
 	@GetMapping("seller/list")
 	@ResponseBody
 	ResponseEntity<List<Seller>> listSellers() {
-		List<Seller> sellerList = repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+		List<Seller> sellerList = (List<Seller>) repository.findAll();
 		return ResponseEntity.ok(sellerList);
 	}
 }

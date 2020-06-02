@@ -2,8 +2,9 @@ package com.bruno.boticario.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,8 +54,13 @@ public class ProductBiz {
 	
 	@DeleteMapping("product/destroy")
 	@ResponseBody
-	public ResponseEntity<String> destroy(@RequestParam String code) {
-		Product product = repository.findById(code).get();
+	public ResponseEntity<String> destroy(@RequestParam Long id) {
+		Product product;
+		try {
+			product = repository.findById(id).get();
+		} catch (NoSuchElementException e) {
+			return ResponseEntity.status(500).body("Produto não encontrado");
+		}
 		
 		List<PurchaseItem> purchaseItemsList = purchaseItemrepository.findByProduct(product);
 		if(!purchaseItemsList.isEmpty()) {
@@ -83,14 +89,13 @@ public class ProductBiz {
 	@GetMapping("product/list")
 	@ResponseBody
 	ResponseEntity<List<Product>> listProducts() {
-		List<Product> productList = repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+		List<Product> productList = (List<Product>) repository.findAll();
 		return ResponseEntity.ok(productList);
 	}
 
 	@GetMapping("product/list/stock")
 	@ResponseBody
 	ResponseEntity<List<Product>> listByStockLowerMinimum(){
-		List<Product> productList = repository.findByStockLowerMinimum(Sort.by(Sort.Direction.ASC, "name"));
 		return ResponseEntity.status(500).build();
 	}
 }

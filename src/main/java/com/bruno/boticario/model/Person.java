@@ -1,15 +1,15 @@
 package com.bruno.boticario.model;
 
-import org.joda.time.DateTime;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Field;
-
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 /**
  * @author Bruno Silva
@@ -21,14 +21,16 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 	@JsonSubTypes.Type(value = Seller.class, name = "seller"),
 	@JsonSubTypes.Type(value = Provider.class, name = "provider")
 })
+@MappedSuperclass
 public abstract class Person implements Comparable<Person>{
-	@Id
-	@JsonIgnore
-	private String code;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "phone")
 	private String phone;
+	@Column(name = "email")
 	private String email;
-	@Field("created_at")
+	@Column(name = "created_at")
+	@CreationTimestamp
 	private Date registerDate;
 
 	public Person(String name, String phone, String email) {
@@ -37,18 +39,7 @@ public abstract class Person implements Comparable<Person>{
 		this.email = email;
 	}
 	
-	public Person(String code, String name, String phone, String email) {
-		this.code = code;
-		this.name = name;
-		this.phone = phone;
-		this.email = email;
-	}
-	
 	public Person() {
-	}
-
-	public String getCode() {
-		return code;
 	}
 
 	public String getName() {
@@ -85,7 +76,7 @@ public abstract class Person implements Comparable<Person>{
 
 	@Override
 	public String toString() {
-		return "Person [code=" + code + ", name=" + name + ", phone=" + phone + ", email=" + email + ", registerDate="
+		return "Person [name=" + name + ", phone=" + phone + ", email=" + email + ", registerDate="
 				+ registerDate + "]";
 	}
 	

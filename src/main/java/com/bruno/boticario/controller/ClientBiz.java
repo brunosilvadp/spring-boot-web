@@ -3,9 +3,7 @@ package com.bruno.boticario.controller;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,13 +45,14 @@ public class ClientBiz {
 	@PostMapping("client/store")
 	@ResponseBody
 	public ResponseEntity<String> store(@RequestBody Person person) {
+		System.out.println("Teste");
 		Client client = (Client) person;
 		List<Client> clientList = repository.findByCpf(client.getCpf());		
 		
 		if(!clientList.isEmpty()) {
 			return ResponseEntity.status(500).body("CPF já cadastrado");
 		}
-		client.setRegisterDate(new Date());
+		// client.setRegisterDate(new Date());
 		client = repository.save(client);
 		return ResponseEntity.ok("Cliente cadastrado com sucesso!");
 	}
@@ -81,11 +80,11 @@ public class ClientBiz {
 		}
 		return ResponseEntity.ok(client.get(0));
 	}
-	
+
 	@GetMapping("client/list")
 	@ResponseBody
 	ResponseEntity<List<Client>> listClients() {
-		List<Client> clientList = repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+		List<Client> clientList = (List<Client>) repository.findAll();
 		return ResponseEntity.ok(clientList);
 	}
 }

@@ -1,27 +1,39 @@
 package com.bruno.boticario.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import deserialize.SaleItemDeserialize;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import deserialize.SaleItemDeserialize;
 
 /**
  * @author Bruno Silva
  *
  */
-@Document("sale_items")
+@Entity
 @JsonDeserialize(using = SaleItemDeserialize.class)
+@Table(name = "sale_items")
 public class SaleItem {
 	
 	@Id
-	private String code;
-	@DBRef
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "product_id", referencedColumnName = "id")
 	private Product product;
+	@Column(name = "sale_quantity")
 	private Integer saleQuantity;
+	@Column(name = "sale_value")
 	private Double saleValue;
 
 	public SaleItem(Product product, Integer saleQuantity, Double saleValue) {
@@ -30,8 +42,8 @@ public class SaleItem {
 		this.saleValue = saleValue;
 	}
 	
-	public String getCode() {
-		return code;
+	public Long getId() {
+		return id;
 	}
 
 	public Product getProduct() {

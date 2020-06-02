@@ -1,11 +1,16 @@
 package com.bruno.boticario.model;
 
-import org.springframework.data.annotation.Id;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,16 +19,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Bruno Silva
  *
  */
-@Document("products")
+@Entity
+@Table(name = "products")
 public class Product implements Comparable<Product>{
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	private String code;
 	private String name;
+	@Column(name = "unit_price")
 	private Double unitPrice;
 	private Integer stock;
+	@Column(name = "minimum_stock")
 	private Integer minimumStock;
-	@Field("created_at")
+	@CreationTimestamp
+	@Column(name = "created_at")
 	private Date registerDate;
 
 	@PersistenceConstructor
@@ -33,11 +43,11 @@ public class Product implements Comparable<Product>{
 	
 	@JsonCreator
     public Product(
-            @JsonProperty("code") String code,
-			@JsonProperty("name") String name, 
-            @JsonProperty("unitPrice") Double unitPrice, 
-            @JsonProperty("stock") Integer stock, 
-            @JsonProperty("minimumStock") Integer minimumStock){
+            @JsonProperty("code") final String code,
+			@JsonProperty("name") final String name, 
+            @JsonProperty("unitPrice") final Double unitPrice, 
+            @JsonProperty("stock") final Integer stock, 
+            @JsonProperty("minimumStock") final Integer minimumStock){
 		this.code = code;
 		this.name = name;
 		this.unitPrice = unitPrice;
@@ -45,7 +55,23 @@ public class Product implements Comparable<Product>{
 		this.minimumStock = minimumStock;
     }
 
-	public Product(String id, String code, String name, Double unitPrice, Integer stock, Integer minimumStock) {
+	// @JsonCreator
+    // public Product(
+    //         @JsonProperty("id") final Long id,
+	// 		@JsonProperty("code") final String code,
+	// 		@JsonProperty("name") final String name, 
+    //         @JsonProperty("unitPrice") final Double unitPrice, 
+    //         @JsonProperty("stock") final Integer stock, 
+    //         @JsonProperty("minimumStock") final Integer minimumStock){
+	// 	this.id = id;
+	// 	this.code = code;
+	// 	this.name = name;
+	// 	this.unitPrice = unitPrice;
+	// 	this.stock = stock;
+	// 	this.minimumStock = minimumStock;
+    // }
+
+	public Product(Long id, final String code, final String name, final Double unitPrice, final Integer stock, final Integer minimumStock) {
 		this.id = id;
 		this.code = code;
 		this.name = name;
@@ -54,7 +80,7 @@ public class Product implements Comparable<Product>{
 		this.minimumStock = minimumStock;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -62,7 +88,7 @@ public class Product implements Comparable<Product>{
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(final String code) {
 		this.code = code;
 	}
 
@@ -70,7 +96,7 @@ public class Product implements Comparable<Product>{
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -78,7 +104,7 @@ public class Product implements Comparable<Product>{
 		return unitPrice;
 	}
 
-	public void setUnitPrice(Double unitPrice) {
+	public void setUnitPrice(final Double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
@@ -86,7 +112,7 @@ public class Product implements Comparable<Product>{
 		return stock;
 	}
 
-	public void setStock(Integer stock) {
+	public void setStock(final Integer stock) {
 		this.stock = stock;
 	}
 
@@ -94,7 +120,7 @@ public class Product implements Comparable<Product>{
 		return minimumStock;
 	}
 
-	public void setMinimumStock(Integer minimumStock) {
+	public void setMinimumStock(final Integer minimumStock) {
 		this.minimumStock = minimumStock;
 	}
 
@@ -102,15 +128,15 @@ public class Product implements Comparable<Product>{
 		return registerDate;
 	}
 
-	public void setRegisterDate(Date registerDate) {
+	public void setRegisterDate(final Date registerDate) {
 		this.registerDate = registerDate;
 	}
 	
-	public void stockIncrement(Integer quantity) {
+	public void stockIncrement(final Integer quantity) {
 		this.stock += quantity;
 	}
 	
-	public void stockDecrement(Integer quantity) {
+	public void stockDecrement(final Integer quantity) {
 		if(this.stock > 0) {
 			this.stock -= quantity;			
 		}
@@ -124,7 +150,7 @@ public class Product implements Comparable<Product>{
 	}
 	
 	@Override
-	public int compareTo(Product o) {
+	public int compareTo(final Product o) {
 		return this.name.compareTo(o.name);
 	}
 

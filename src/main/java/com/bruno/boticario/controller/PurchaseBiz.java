@@ -1,6 +1,7 @@
 package com.bruno.boticario.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,12 +54,12 @@ public class PurchaseBiz {
 	
 	@DeleteMapping("purchase/destroy")
 	@ResponseBody
-	public ResponseEntity<String> destroy(@RequestParam String code){
+	public ResponseEntity<String> destroy(@RequestParam Long code){
 		Purchase purchase = repository.findById(code).get();
-		ArrayList<PurchaseItem> purchaseItemList = purchase.getPurchaseItem();
+		List<PurchaseItem> purchaseItemList = purchase.getPurchaseItem();
 		for (PurchaseItem purchaseItem : purchaseItemList) {
 			Product product = purchaseItem.getProduct();
-			product = productRepository.findById(product.getCode()).get();
+			// product = productRepository.findById(product.getId()).get();
 			product.stockDecrement(purchaseItem.getPurchaseQuantity());
 			productRepository.save(product);
 			purchaseItemRepository.delete(purchaseItem);

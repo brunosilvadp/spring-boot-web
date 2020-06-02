@@ -31,20 +31,24 @@
 	            <i class="las la-angle-left fs-20"></i>
             </div>
             <div class="ml-2 header-title">
-                <h2 class="fs-20">Adicionar Vendedor</h2>
+                <h2 class="fs-20">Adicionar Produto</h2>
             </div>
         </div>
         <div class="sidenav-body">
             <div class="body-content">
                 <form id="product-form" action="#">
                 	<div class="row">
-                		<div class="col-md-6 d-flex flex-column">
+                		<div class="col-md-4 d-flex flex-column">
 	                		<label for="name">Nome</label>
 		                    <input type="text" name="name" id="name" placeholder="Nome">
                 		</div>
-                		<div class="col-md-6 d-flex flex-column">
+                		<div class="col-md-4 d-flex flex-column">
                 			<label for="unitPrice">Preço por unidade</label>
 	                    	<input type="text" name="unitPrice" id="unitPrice" placeholder="Preço por unidade">
+                		</div>
+						<div class="col-md-4 d-flex flex-column">
+                			<label for="unitPrice">Código</label>
+	                    	<input type="number" name="code" id="code" placeholder="Código">
                 		</div>
                 	</div>
                 	<div class="row mt-2">
@@ -89,7 +93,7 @@
 			{ "mData": "registerDate" },
 			{ "mData": "actions",
                 "render": function (data, type, row, meta) {
-					return `<button type="button" class="action-button remove-data" onClick="removeProduct('${row['code']}', ${meta.row})"><i class="la la-trash"></i></button>`;
+					return `<button type="button" class="action-button remove-data" onClick="removeProduct('${row['id']}', ${meta.row})"><i class="la la-trash"></i></button>`;
                 }
             }
 		]
