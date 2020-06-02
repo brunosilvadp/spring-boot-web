@@ -61,8 +61,8 @@ public class SaleBiz {
 	@GetMapping("list/client/sale")
 	@ResponseBody
 	ResponseEntity<List<Sale>> listSalesByClientAndPeriod(@RequestParam String name, @RequestParam Date startDate, @RequestParam Date endDate){
-		// List<Sale> saleList = repository.findByClientAndSaleDate(name, startDate, endDate);
-		return ResponseEntity.status(500).build();
+		List<Sale> saleList = repository.findByClientAndSaleDateInterval(name, startDate, endDate);
+		return ResponseEntity.ok(saleList);
 	}
 
 	@DeleteMapping("sale/destroy")

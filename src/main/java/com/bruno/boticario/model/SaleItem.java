@@ -41,6 +41,16 @@ public class SaleItem {
 		this.saleQuantity = saleQuantity;
 		this.saleValue = saleValue;
 	}
+
+	public SaleItem(Long id, Product product, Integer saleQuantity, Double saleValue) {
+		this.product = product;
+		this.saleQuantity = saleQuantity;
+		this.saleValue = saleValue;
+	}
+
+	public SaleItem(){
+
+	}
 	
 	public Long getId() {
 		return id;
