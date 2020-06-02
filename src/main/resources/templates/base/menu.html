@@ -44,6 +44,12 @@
                 		<span class="menu-title ml-2">Produtos</span>
                		</a>
                  </li>
+                  <li th:class="${currentPage == 'lower-stock' ? 'active' : ''}">
+                	<a th:href="@{/produtos/estoque-baixo}">
+               			<i class="las la-arrow-down"></i>
+                		<span class="menu-title ml-2">Estoque baixo</span>
+               		</a>
+                 </li>
             </ul>
         </div>
     </div>
