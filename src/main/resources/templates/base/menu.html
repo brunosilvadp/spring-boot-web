@@ -50,6 +50,12 @@
                 		<span class="menu-title ml-2">Estoque baixo</span>
                		</a>
                  </li>
+                 <li th:class="${currentPage == 'sale-show' ? 'active' : ''}">
+                	<a th:href="@{/relatorio-de-vendas}">
+               			<i class="las la-cash-register"></i>
+                		<span class="menu-title ml-2">Relatório de vendas</span>
+               		</a>
+                 </li>
             </ul>
         </div>
     </div>

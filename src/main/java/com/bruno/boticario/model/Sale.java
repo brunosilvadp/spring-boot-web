@@ -1,6 +1,8 @@
 package com.bruno.boticario.model;
 
 import java.util.List;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -13,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.PersistenceConstructor;
 
@@ -39,15 +43,18 @@ public class Sale {
 	private List<SaleItem> saleItem;
 	@Column(name = "payment_method")
 	private Integer paymentMethod;
+	private Double total;
 	@Column(name = "sale_date")
+	@Temporal(TemporalType.DATE)
 	private Date saleDate;
 
 	public Sale(Client client, Seller seller, List<SaleItem> saleItem,
-			Integer paymentMethod) {
+			Integer paymentMethod, Double total) {
 		this.client = client;
 		this.seller = seller;
 		this.saleItem = saleItem;
 		this.paymentMethod = paymentMethod;
+		this.total = total;
 	}
 	
 	@PersistenceConstructor
@@ -115,8 +122,17 @@ public class Sale {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public Date getSaleDate() {
-		return saleDate;
+	public String getSaleDate() {
+		return new SimpleDateFormat("dd/MM/yyyy").format(saleDate);
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
+	}
+	
+	public String getTotal() {
+		DecimalFormat df = new DecimalFormat("#,##0.00");
+		return "R$ " + df.format(this.total);
 	}
 
 	public void setSaleDate(Date saleDate) {

@@ -11,10 +11,10 @@ p, h2, h3, h1, span:not(.material-icons), label{
 }
 
 input, select{
-	border: 1px solid;
-    border-radius: 20px;
-    padding: 5px 20px;
-    background-color: transparent;
+    border: 1px solid #e2e2e2;
+    padding: 8px 25px;
+    border-radius: 10px;
+    width: 100%;
 }
 
 @font-face {
@@ -71,7 +71,7 @@ input, select{
 	font-size: 12px;
 }
 
-.custom-sidenav .sidenav-body .body-content button{
+form button{
 	border: 1px solid #2C303B;
 	background-color: #2C303B;
 	color: #fff;
@@ -81,7 +81,7 @@ input, select{
 	border-radius: 20px;
 }
 
-.custom-sidenav .sidenav-body .body-content button:hover{
+form button:hover{
 	background-color: transparent;
 	color: #2C303B;
 }
@@ -142,4 +142,8 @@ input, select{
 	border: 1px solid #28D094 !important;
 	background-color: #28D094 !important;
 	color: #fff !important;	
+}
+
+.main-menu.menu-dark .navigation li a span{
+    font-size: 15px;
 }

@@ -19,6 +19,6 @@ public interface SaleRepository extends JpaRepository<Sale, Long>{
 	
 	List<Sale> findBySeller(Seller seller);
 
-	@Query(value = "SELECT * FROM sales AS s INNER JOIN clients AS c ON s.client_id = c.id WHERE c.name iLIKE ?1 AND s.sale_date >= ?2 AND s.sale_date <= ?3", nativeQuery = true)
+	@Query(value = "SELECT * FROM sales AS s INNER JOIN clients AS c ON s.client_id = c.id WHERE c.name iLIKE ?1 AND s.sale_date >= ?2 AND s.sale_date <= ?3 ORDER BY c.name ASC", nativeQuery = true)
 	List<Sale> findByClientAndSaleDateInterval(String name, Date startDate, Date endDate);
 }
