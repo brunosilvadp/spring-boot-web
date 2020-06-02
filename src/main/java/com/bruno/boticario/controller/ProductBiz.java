@@ -44,6 +44,15 @@ public class ProductBiz {
 		return "base/app";
 	}
 
+	@GetMapping("produtos/estoque-baixo")
+	public String lowerStock(Model model) {
+		
+		model.addAttribute("page", "product/lower-stock");
+		model.addAttribute("currentPage", "lower-stock");
+		
+		return "base/app";
+	}
+
 	@PostMapping("product/store")
 	@ResponseBody
 	public ResponseEntity<String> store(@RequestBody Product product) {
@@ -93,9 +102,10 @@ public class ProductBiz {
 		return ResponseEntity.ok(productList);
 	}
 
-	@GetMapping("product/list/stock")
+	@GetMapping("product/list/lower-stock")
 	@ResponseBody
-	ResponseEntity<List<Product>> listByStockLowerMinimum(){
-		return ResponseEntity.status(500).build();
+	ResponseEntity<List<Product>> listByLowerStock(){
+		List<Product> productList = repository.listByLowerStock();
+		return ResponseEntity.ok(productList);
 	}
 }
