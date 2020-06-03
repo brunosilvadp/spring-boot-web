@@ -26,6 +26,7 @@ $('document').ready(function(){
 				'saleQuantity': parseInt(item.quantity),
 				'saleValue': item.unitPrice * item.quantity
 			}
+			delete object.product.unitPriceFormated;
 			delete object.product.quantity;
 			data['saleItem'].push(object);
 		})

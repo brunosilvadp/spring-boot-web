@@ -148,6 +148,7 @@
 										<th>Código</th>
 										<th>Nome</th>
 										<th>Quantidade</th>
+										<th>Total</th>
 										<th>Ações</th>
 									</tr>
 								</thead>
@@ -267,6 +268,11 @@
 			{ "mData": "code" },
 			{ "mData": "name" },
 			{ "mData": "quantity" },
+			{ "mData": "total",
+				"render": function(data, type, row, meta){
+					return (row.unitPrice * row.quantity).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})
+				}
+			},
 			{ "mData": "actions",
 				"render": function (data, type, row, meta) {
 					return `<button type="button" class="action-button remove-data" onClick="removeProduct(${meta.row})"><i class="la la-trash"></i></button>

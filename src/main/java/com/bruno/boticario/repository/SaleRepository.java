@@ -27,4 +27,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long>{
 
 	@Query(value = "SELECT SUM(total) as total, COUNT(*) as quantity FROM sales WHERE client_id = ?1 AND sale_date >= ?2 AND sale_date <= ?3", nativeQuery = true)
 	String clientReport(Long id, Date startDate, Date endDate);
+
+	@Query(value = "SELECT SUM(total) as total, COUNT(*) as quantity FROM sales WHERE seller_id = ?1 AND sale_date >= ?2 AND sale_date <= ?3", nativeQuery = true)
+	String sellerReport(Long id, Date startDate, Date endDate);
 }

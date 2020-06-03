@@ -101,9 +101,13 @@ public class Product implements Comparable<Product>{
 		this.name = name;
 	}
 
-	public String getUnitPrice() {
+	public String getUnitPriceFormated() {
 		DecimalFormat df = new DecimalFormat("#,##0.00");
 		return "R$ " + df.format(unitPrice);
+	}
+
+	public Double getUnitPrice() {
+		return unitPrice;
 	}
 
 	public void setUnitPrice(final Double unitPrice) {
