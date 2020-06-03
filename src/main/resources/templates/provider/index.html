@@ -124,6 +124,7 @@
 										<th>#</th>
 										<th>Nome</th>
 										<th>Quantidade</th>
+										<th>Total</th>
 										<th>Ações</th>
 									</tr>
 								</thead>
@@ -133,6 +134,55 @@
 					<div class="row justify-content-center mt-3">
                 		<div class="col-md-12 text-center">
                 			<button type="submit">Cadastrar</button>
+                		</div>
+                	</div>
+                </form>
+            </div>
+        </div>  
+    </div>
+</div>
+
+<div id="report-sidenav" class="custom-sidenav">
+    <div class="container">
+        <div class="sidenav-header d-flex">
+            <div class="close-sidenav" data-sidenav="#report-sidenav">
+	            <i class="las la-angle-left fs-20"></i>
+            </div>
+            <div class="ml-2 header-title">
+                <h2 class="fs-20">Relatório de compras</h2>
+            </div>
+        </div>
+        <div class="sidenav-body">
+            <div class="body-content">
+                <div class="row">
+					<div class="col-md-6 d-flex flex-column">
+						<label for="providerName">Fornecedor</label>
+						<input type="text" name="providerName" id="providerName" placeholder="Nome" readonly>
+					</div>
+					<div class="col-md-3 d-flex flex-column">
+						<label for="purchaseQuantity">Quantidade de compras</label>
+						<input type="number" name="purchaseQuantity" id="purchaseQuantity" readonly value="0">
+					</div>
+					<div class="col-md-3 d-flex flex-column">
+						<label for="purchaseTotal">Total</label>
+						<input type="text" name="purchaseTotal" id="purchaseTotal" readonly value="R$ 0,00">
+					</div>
+				</div>
+				<form id="report-form" action="#">
+					<input type="hidden" name="providerId" value="">
+					<div class="row mt-3">
+                		<div class="col-md-6 d-flex flex-column">
+	                		<label for="startDate">Data inicial</label>
+		                    <input type="date" name="startDate" id="startDate">
+                		</div>
+						<div class="col-md-6 d-flex flex-column">
+	                		<label for="endDate">Data final</label>
+		                    <input type="date" name="endDate" id="endDate">
+                		</div>
+                	</div>
+					<div class="row justify-content-center mt-3">
+                		<div class="col-md-12 text-center">
+                			<button type="submit">Filtrar</button>
                 		</div>
                 	</div>
                 </form>
@@ -164,6 +214,7 @@
                 "render": function (data, type, row, meta) {
                 	return `<div class="d-flex">
 								<button type="button" class="action-button remove-data" onClick="removeProvider(${meta.row})"><i class="la la-trash"></i></button>
+								<button type="button" class="action-button report-data ml-1" onClick="showReportSidenav(${meta.row})"><i class="las la-chart-bar"></i></button>
 								<button type="button" class="action-button add-data ml-1" onClick="showShoppingSidenav(${meta.row})"><i class="la la-shopping-cart"></i></button>
 							</div>
 						`;
@@ -180,6 +231,11 @@
 		    { "mData": "code" },
 	      	{ "mData": "name" },
 	      	{ "mData": "quantity" },
+			{ "mData": "total",
+				"render": function(data, type, row, meta){
+					return (row.unitPrice * row.quantity).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})
+				}
+			},
 			{ "mData": "actions",
                 "render": function (data, type, row, meta) {
                 	return `<button type="button" class="action-button remove-data" onClick="removeProduct(${meta.row})"><i class="la la-trash"></i></button>

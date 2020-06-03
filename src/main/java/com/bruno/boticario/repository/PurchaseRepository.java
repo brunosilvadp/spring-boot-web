@@ -18,4 +18,7 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long>{
 	
 	@Query(value = "SELECT * FROM purchases INNER JOIN providers ON purchases.provider_id = providers.id WHERE providers.name iLIKE ?1 AND purchases.purchase_date >= ?2 AND purchases.purchase_date <= ?3 ORDER BY providers.name ASC, purchases.purchase_date DESC", nativeQuery = true)
 	List<Purchase> findByProviderAndSaleDateInterval(String name, Date startDate, Date endDate);
+
+	@Query(value = "SELECT SUM(total) as total, COUNT(*) as quantity FROM purchases WHERE provider_id = ?1 AND purchase_date >= ?2 AND purchase_date <= ?3", nativeQuery = true)
+	String providerReport(Long id, Date startDate, Date endDate);
 }

@@ -45,7 +45,7 @@ public class Purchase {
 	@Temporal(TemporalType.DATE)
 	private Date purchaseDate;
 	
-	public Purchase(final Provider provider, final List<PurchaseItem> purchaseItem) {
+	public Purchase(Provider provider, List<PurchaseItem> purchaseItem) {
 		this.provider = provider;
 		this.purchaseItem = purchaseItem;
 	}
@@ -57,9 +57,9 @@ public class Purchase {
 
 	@JsonCreator
     public Purchase(
-            @JsonProperty("provider") final Provider provider, 
-            @JsonProperty("purchaseItem") final ArrayList<PurchaseItem> purchaseItem, 
-            @JsonProperty("purchaseDate") final Date purchaseDate) {
+            @JsonProperty("provider") Provider provider, 
+            @JsonProperty("purchaseItem") ArrayList<PurchaseItem> purchaseItem, 
+            @JsonProperty("purchaseDate") Date purchaseDate) {
 		this.provider = provider;
 		this.purchaseItem = purchaseItem;
 		this.purchaseDate = purchaseDate;
@@ -74,7 +74,7 @@ public class Purchase {
 		return provider;
 	}
 
-	public void setProvider(final Provider provider) {
+	public void setProvider(Provider provider) {
 		this.provider = provider;
 	}
 
@@ -82,7 +82,7 @@ public class Purchase {
 		return purchaseItem;
 	}
 
-	public void setPurchaseItem(final List<PurchaseItem> purchaseItem) {
+	public void setPurchaseItem(List<PurchaseItem> purchaseItem) {
 		this.purchaseItem = purchaseItem;
 	}
 
@@ -99,7 +99,7 @@ public class Purchase {
 		return "R$ " + df.format(this.total);
 	}
 
-	public void setPurchaseDate(final Date purchaseDate) {
+	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 

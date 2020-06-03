@@ -6,6 +6,25 @@ $('document').ready(function(){
 		showSidenav($(this).data('sidenav'));
 	})
 
+	$('#report-form').submit(function(e){
+		e.preventDefault();
+		$.ajax({
+			method: "GET",
+			headers: { 
+		        'Content-Type': 'application/json' 
+		    },
+			url: `report/provider/purchase?${$(this).serialize()}`,
+			success: function(response){
+				let total = parseFloat(response[0]) || 0 ;
+				$('#report-sidenav #purchaseTotal').val(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}))
+				$('#report-sidenav #purchaseQuantity').val(response['1'])
+			},
+			error: function(response){
+				showNotification('error', response.responseText);
+			}
+		})
+	})
+
 	$('#shopping-form').submit(function(e){
 		e.preventDefault();
 		let arrayData = $(this).serializeArray();
@@ -133,3 +152,9 @@ function removeProvider(row){
 	});
 };
 
+function showReportSidenav(row){
+	$('#report-sidenav input').val('');
+	$('#report-form input[name="providerId"]').val(table.row(row).data().id);
+	$('#report-sidenav input[name="providerName"]').val(table.row(row).data().name);
+	showSidenav('#report-sidenav');
+}

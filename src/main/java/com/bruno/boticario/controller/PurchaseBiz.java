@@ -50,7 +50,7 @@ public class PurchaseBiz {
 	@ResponseBody
 	public ResponseEntity<String> store(@RequestBody Purchase purchase) {
 		ArrayList<PurchaseItem> purchaseItemList = new ArrayList<PurchaseItem>();
-		double purchaseTotal = purchase.getPurchaseItem().stream().mapToDouble(o -> o.getPurchaseValue() * o.getPurchaseQuantity()).sum();	
+		double purchaseTotal = purchase.getPurchaseItem().stream().mapToDouble(o -> o.getPurchaseValue()).sum();	
 		for (PurchaseItem purchaseItem : purchase.getPurchaseItem()) {
 			Product product = purchaseItem.getProduct();
 			product = productRepository.findById(product.getId()).get();
@@ -72,7 +72,7 @@ public class PurchaseBiz {
 		List<PurchaseItem> purchaseItemList = purchase.getPurchaseItem();
 		for (PurchaseItem purchaseItem : purchaseItemList) {
 			Product product = purchaseItem.getProduct();
-			// product = productRepository.findById(product.getId()).get();
+			product = productRepository.findById(product.getId()).get();
 			product.stockDecrement(purchaseItem.getPurchaseQuantity());
 			productRepository.save(product);
 			purchaseItemRepository.delete(purchaseItem);
@@ -95,5 +95,20 @@ public class PurchaseBiz {
 		providerName = "%" + providerName + "%";
 		List<Purchase> purchaseList = repository.findByProviderAndSaleDateInterval(providerName, parsedStartDate, parsedEndDate);
 		return ResponseEntity.ok(purchaseList);
+	}
+
+	@GetMapping("report/provider/purchase")
+	ResponseEntity<Object> sellerReport(@RequestParam String providerId, @RequestParam String startDate, @RequestParam String endDate){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		Date parsedStartDate;
+		Date parsedEndDate;
+		try {
+			parsedStartDate = sdf.parse(startDate.replace("-", "/"));
+			parsedEndDate = sdf.parse(endDate.replace("-", "/"));
+		} catch (ParseException e) {
+			return ResponseEntity.status(500).body("Ocorreu um erro ao efetuar a busca. Contate o administrador");
+		}
+		String[] data = repository.providerReport(Long.parseLong(providerId), parsedStartDate, parsedEndDate).split(",");
+		return ResponseEntity.ok(data);
 	}
 }

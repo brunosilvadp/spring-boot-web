@@ -28,7 +28,7 @@ public class SaleItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name = "product_id", referencedColumnName = "id")
 	private Product product;
 	@Column(name = "sale_quantity")
