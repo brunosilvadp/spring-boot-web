@@ -65,7 +65,7 @@ public class Purchase {
 		this.purchaseDate = purchaseDate;
     }
 
-	public Long getPurchaseNumber() {
+	public Long getId() {
 		return id;
 	}
 

@@ -31,12 +31,6 @@ public class PurchaseItem {
 	@Column(name = "purchase_value")
 	private Double purchaseValue;
 	
-//	public PurchaseItem(Product product, Integer purchaseQuantity, Double purchaseValue) {
-//		this.product = product;
-//		this.purchaseQuantity = purchaseQuantity;
-//		this.purchaseValue = purchaseValue;
-//	}
-//	
 	@JsonCreator
 	public PurchaseItem(@JsonProperty("product") Product product, 
 				@JsonProperty("purchaseQuantity")  Integer purchaseQuantity, 
@@ -46,7 +40,11 @@ public class PurchaseItem {
 		this.purchaseValue = purchaseValue;
 	}
 	
-	public Long getPurchaseCode() {
+	public PurchaseItem(){
+
+	}
+
+	public Long getId() {
 		return id;
 	}
 	

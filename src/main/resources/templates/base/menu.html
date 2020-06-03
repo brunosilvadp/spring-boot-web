@@ -62,6 +62,12 @@
                 		<span class="menu-title ml-2">Vendas - Vendedor</span>
                		</a>
                  </li>
+				  <li th:class="${currentPage == 'purchases' ? 'active' : ''}">
+                	<a th:href="@{/compras}">
+               			<i class="las la-shopping-cart"></i>
+                		<span class="menu-title ml-2">Compras</span>
+               		</a>
+                 </li>
             </ul>
         </div>
     </div>
