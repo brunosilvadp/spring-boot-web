@@ -39,10 +39,18 @@ public class SaleBiz {
 		this.productRepository = productRepository;
 	}
 
-	@GetMapping("relatorio-de-vendas")
-	String listSales(Model model) {
-		model.addAttribute("page", "sale/show");
-		model.addAttribute("currentPage", "sale-show");
+	@GetMapping("relatorio-de-vendas-por-clientes")
+	String listSalesByClient(Model model) {
+		model.addAttribute("page", "sale/show-by-client");
+		model.addAttribute("currentPage", "sale-by-client-show");
+
+		return "base/app";
+	}
+
+	@GetMapping("relatorio-de-vendas-por-vendedor")
+	String listSalesBySeller(Model model) {
+		model.addAttribute("page", "sale/show-by-seller");
+		model.addAttribute("currentPage", "sale-by-seller-show");
 
 		return "base/app";
 	}
@@ -88,10 +96,28 @@ public class SaleBiz {
 		return ResponseEntity.ok(saleList);
 	}
 
+	@GetMapping("list/seller/sale")
+	@ResponseBody
+	ResponseEntity<Object> listSalesBySellerAndPeriod(@RequestParam String sellerName, @RequestParam String startDate, @RequestParam String endDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		Date parsedStartDate;
+		Date parsedEndDate;
+		try {
+			parsedStartDate = sdf.parse(startDate.replace("-", "/"));
+			parsedEndDate = sdf.parse(endDate.replace("-", "/"));
+		} catch (ParseException e) {
+			return ResponseEntity.status(500).body("Ocorreu um erro ao efetuar a busca. Contate o administrador");
+		}
+		System.out.println(parsedStartDate + " - " + parsedEndDate);
+		sellerName = "%" + sellerName + "%";
+		List<Sale> saleList = repository.findBySellerAndSaleDateInterval(sellerName, parsedStartDate, parsedEndDate);
+		return ResponseEntity.ok(saleList);
+	}
+
 	@DeleteMapping("sale/destroy")
 	@ResponseBody
-	public ResponseEntity<String> destroy(@RequestParam Long code){
-		Sale sale = repository.findById(code).get();
+	public ResponseEntity<String> destroy(@RequestParam Long id){
+		Sale sale = repository.findById(id).get();
 		List<SaleItem> saleItemList = sale.getSaleItem();
 		for (SaleItem saleItem : saleItemList) {
 			Product product = saleItem.getProduct(); 
@@ -99,7 +125,7 @@ public class SaleBiz {
 			productRepository.save(product);
 			saleItemrepository.delete(saleItem);
 		}
-		repository.deleteById(code);
+		repository.deleteById(id);
 		return ResponseEntity.ok("Venda removida com sucesso!");
 	}
 }

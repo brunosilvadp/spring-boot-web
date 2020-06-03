@@ -50,10 +50,16 @@
                 		<span class="menu-title ml-2">Estoque baixo</span>
                		</a>
                  </li>
-                 <li th:class="${currentPage == 'sale-show' ? 'active' : ''}">
-                	<a th:href="@{/relatorio-de-vendas}">
+                 <li th:class="${currentPage == 'sale-by-client-show' ? 'active' : ''}">
+                	<a th:href="@{/relatorio-de-vendas-por-clientes}">
                			<i class="las la-cash-register"></i>
-                		<span class="menu-title ml-2">Relatório de vendas</span>
+                		<span class="menu-title ml-2">Vendas - Clientes</span>
+               		</a>
+                 </li>
+                 <li th:class="${currentPage == 'sale-by-seller-show' ? 'active' : ''}">
+                	<a th:href="@{/relatorio-de-vendas-por-vendedor}">
+               			<i class="las la-cash-register"></i>
+                		<span class="menu-title ml-2">Vendas - Vendedor</span>
                		</a>
                  </li>
             </ul>

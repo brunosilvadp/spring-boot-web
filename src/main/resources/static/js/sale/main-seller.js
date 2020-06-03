@@ -7,7 +7,7 @@ $('document').ready(function(){
             headers: { 
 		        'Content-Type': 'application/json' 
 		    },
-            url: `/list/client/sale?${$(this).serialize()}`,
+            url: `/list/seller/sale?${$(this).serialize()}`,
             success: function(response){
                 
                 table.rows.add(response).draw();
@@ -19,3 +19,21 @@ $('document').ready(function(){
         })
     })
 })
+
+function removeSale(row){
+	let id = table.row(row).data().id;
+	$.ajax({
+		method: "DELETE",
+		headers: { 
+	        'Content-Type': 'application/json' 
+	    },
+		url: `/sale/destroy?id=${id}`,
+		success: function(response){
+			table.row(row).remove().draw();
+			showNotification('success', response);
+		},
+		error: function(response){
+			showNotification('error', response.responseText);
+		}
+	});
+};
