@@ -90,7 +90,6 @@ public class SaleBiz {
 		} catch (ParseException e) {
 			return ResponseEntity.status(500).body("Ocorreu um erro ao efetuar a busca. Contate o administrador");
 		}
-		System.out.println(parsedStartDate + " - " + parsedEndDate);
 		clientName = "%" + clientName + "%";
 		List<Sale> saleList = repository.findByClientAndSaleDateInterval(clientName, parsedStartDate, parsedEndDate);
 		return ResponseEntity.ok(saleList);
@@ -108,7 +107,6 @@ public class SaleBiz {
 		} catch (ParseException e) {
 			return ResponseEntity.status(500).body("Ocorreu um erro ao efetuar a busca. Contate o administrador");
 		}
-		System.out.println(parsedStartDate + " - " + parsedEndDate);
 		sellerName = "%" + sellerName + "%";
 		List<Sale> saleList = repository.findBySellerAndSaleDateInterval(sellerName, parsedStartDate, parsedEndDate);
 		return ResponseEntity.ok(saleList);
