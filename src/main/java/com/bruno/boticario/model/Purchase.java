@@ -1,5 +1,7 @@
 package com.bruno.boticario.model;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.PersistenceConstructor;
 
@@ -36,10 +40,12 @@ public class Purchase {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "purchase_id", referencedColumnName = "id")
 	private List<PurchaseItem> purchaseItem;
+	private Double total;
 	@Column(name = "purchase_date")
+	@Temporal(TemporalType.DATE)
 	private Date purchaseDate;
 	
-	public Purchase(Provider provider, List<PurchaseItem> purchaseItem) {
+	public Purchase(final Provider provider, final List<PurchaseItem> purchaseItem) {
 		this.provider = provider;
 		this.purchaseItem = purchaseItem;
 	}
@@ -51,9 +57,9 @@ public class Purchase {
 
 	@JsonCreator
     public Purchase(
-            @JsonProperty("provider") Provider provider, 
-            @JsonProperty("purchaseItem") ArrayList<PurchaseItem> purchaseItem, 
-            @JsonProperty("purchaseDate") Date purchaseDate) {
+            @JsonProperty("provider") final Provider provider, 
+            @JsonProperty("purchaseItem") final ArrayList<PurchaseItem> purchaseItem, 
+            @JsonProperty("purchaseDate") final Date purchaseDate) {
 		this.provider = provider;
 		this.purchaseItem = purchaseItem;
 		this.purchaseDate = purchaseDate;
@@ -68,7 +74,7 @@ public class Purchase {
 		return provider;
 	}
 
-	public void setProvider(Provider provider) {
+	public void setProvider(final Provider provider) {
 		this.provider = provider;
 	}
 
@@ -76,15 +82,24 @@ public class Purchase {
 		return purchaseItem;
 	}
 
-	public void setPurchaseItem(List<PurchaseItem> purchaseItem) {
+	public void setPurchaseItem(final List<PurchaseItem> purchaseItem) {
 		this.purchaseItem = purchaseItem;
 	}
 
-	public Date getPurchaseDate() {
-		return purchaseDate;
+	public String getPurchaseDate() {
+		return new SimpleDateFormat("dd/MM/yyyy").format(purchaseDate);
 	}
 
-	public void setPurchaseDate(Date purchaseDate) {
+	public void setTotal(Double total) {
+		this.total = total;
+	}
+	
+	public String getTotal() {
+		DecimalFormat df = new DecimalFormat("#,##0.00");
+		return "R$ " + df.format(this.total);
+	}
+
+	public void setPurchaseDate(final Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 

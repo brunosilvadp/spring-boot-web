@@ -3,6 +3,7 @@ package com.bruno.boticario.model;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.PersistenceConstructor;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -100,8 +101,9 @@ public class Product implements Comparable<Product>{
 		this.name = name;
 	}
 
-	public Double getUnitPrice() {
-		return unitPrice;
+	public String getUnitPrice() {
+		DecimalFormat df = new DecimalFormat("#,##0.00");
+		return "R$ " + df.format(unitPrice);
 	}
 
 	public void setUnitPrice(final Double unitPrice) {
