@@ -48,6 +48,25 @@ $('document').ready(function(){
 		});
 	})
 
+	$('#report-form').submit(function(e){
+		e.preventDefault();
+		$.ajax({
+			method: "GET",
+			headers: { 
+		        'Content-Type': 'application/json' 
+		    },
+			url: `report/client/sale?${$(this).serialize()}`,
+			success: function(response){
+				let total = parseFloat(response[0]) || 0 ;
+				$('#report-sidenav #saleTotal').val(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'}))
+				$('#report-sidenav #saleQuantity').val(response['1'])
+			},
+			error: function(response){
+				showNotification('error', response.responseText);
+			}
+		})
+	})
+
 	$('#client-form').submit(function(e){
 		e.preventDefault();
 		
@@ -146,4 +165,11 @@ function showSaleSidenav(row){
 	$('#sale-form input[name="clientName"]').val(table.row(row).data().name);
 	$('#sale-form input[name="client-position"]').val(row);
 	showSidenav('#sale-sidenav');
+}
+
+function showReportSidenav(row){
+	$('#report-sidenav input').val('');
+	$('#report-form input[name="clientId"]').val(table.row(row).data().id);
+	$('#report-sidenav input[name="clientName"]').val(table.row(row).data().name);
+	showSidenav('#report-sidenav');
 }

@@ -24,4 +24,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long>{
 
 	@Query(value = "SELECT * FROM sales INNER JOIN sellers ON sales.seller_id = sellers.id WHERE sellers.name iLIKE ?1 AND sales.sale_date >= ?2 AND sales.sale_date <= ?3 ORDER BY sellers.name ASC, sales.sale_date DESC", nativeQuery = true)
 	List<Sale> findBySellerAndSaleDateInterval(String name, Date startDate, Date endDate);
+
+	@Query(value = "SELECT SUM(total) as total, COUNT(*) as quantity FROM sales WHERE client_id = ?1 AND sale_date >= ?2 AND sale_date <= ?3", nativeQuery = true)
+	String clientReport(Long id, Date startDate, Date endDate);
 }

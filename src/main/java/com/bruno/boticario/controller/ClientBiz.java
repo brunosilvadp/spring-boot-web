@@ -20,7 +20,6 @@ import com.bruno.boticario.repository.ClientRepository;
 import com.bruno.boticario.repository.SaleRepository;
 
 @Controller
-//@RequestMapping("/client")
 public class ClientBiz {
 	
 	private final ClientRepository repository;
@@ -44,14 +43,12 @@ public class ClientBiz {
 	@PostMapping("client/store")
 	@ResponseBody
 	public ResponseEntity<String> store(@RequestBody Person person) {
-		System.out.println("Teste");
 		Client client = (Client) person;
 		List<Client> clientList = repository.findByCpf(client.getCpf());		
 		
 		if(!clientList.isEmpty()) {
 			return ResponseEntity.status(500).body("CPF já cadastrado");
 		}
-		// client.setRegisterDate(new Date());
 		client = repository.save(client);
 		return ResponseEntity.ok("Cliente cadastrado com sucesso!");
 	}

@@ -2,6 +2,7 @@ package com.bruno.boticario.model;
 
 import org.springframework.data.annotation.PersistenceConstructor;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -78,6 +79,11 @@ public class Seller extends Person {
 
 	public Double getMonthlyGoal() {
 		return monthlyGoal;
+	}
+
+	public String getMonthlyGoalFormated(){
+		DecimalFormat df = new DecimalFormat("#,##0.00");
+		return "R$ " + df.format(monthlyGoal);	
 	}
 
 	public void setMonthlyGoal(Double monthlyGoal) {

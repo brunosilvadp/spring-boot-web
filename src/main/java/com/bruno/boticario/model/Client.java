@@ -1,5 +1,6 @@
 package com.bruno.boticario.model;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -71,6 +72,11 @@ public class Client extends Person{
 
 	public Double getCreditLimit() {
 		return creditLimit;
+	}
+
+	public String getCreditLimitFormated(){
+		DecimalFormat df = new DecimalFormat("#,##0.00");
+		return "R$ " + df.format(creditLimit);	
 	}
 
 	public void setCreditLimit(Double creditLimit) {

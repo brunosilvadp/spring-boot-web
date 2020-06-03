@@ -144,6 +144,12 @@ form button:hover{
 	color: #fff !important;	
 }
 
+.action-button.report-data{
+    border: 1px solid #FF7216 !important;
+	background-color: #FF7216 !important;
+	color: #fff !important;	
+}
+
 .main-menu.menu-dark .navigation li a span{
     font-size: 15px;
 }

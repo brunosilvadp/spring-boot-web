@@ -1,5 +1,6 @@
 package com.bruno.boticario.controller;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,15 +33,15 @@ public class SaleBiz {
 	private final ProductRepository productRepository;
 
 	@Autowired
-	public SaleBiz(SaleRepository repository, SaleItemRepository saleItemrepository,
-			ProductRepository productRepository) {
+	public SaleBiz(final SaleRepository repository, final SaleItemRepository saleItemrepository,
+			final ProductRepository productRepository) {
 		this.repository = repository;
 		this.saleItemrepository = saleItemrepository;
 		this.productRepository = productRepository;
 	}
 
 	@GetMapping("relatorio-de-vendas-por-clientes")
-	String listSalesByClient(Model model) {
+	String listSalesByClient(final Model model) {
 		model.addAttribute("page", "sale/show-by-client");
 		model.addAttribute("currentPage", "sale-by-client-show");
 
@@ -48,7 +49,7 @@ public class SaleBiz {
 	}
 
 	@GetMapping("relatorio-de-vendas-por-vendedor")
-	String listSalesBySeller(Model model) {
+	String listSalesBySeller(final Model model) {
 		model.addAttribute("page", "sale/show-by-seller");
 		model.addAttribute("currentPage", "sale-by-seller-show");
 
@@ -57,14 +58,14 @@ public class SaleBiz {
 
 	@PostMapping("sale/store")
 	@ResponseBody
-	public ResponseEntity<Sale> store(@RequestBody Sale sale) {
-		ArrayList<SaleItem> saleItemList = new ArrayList<SaleItem>();
-		double saleTotal = sale.getSaleItem().stream().mapToDouble(o -> o.getSaleValue() * o.getSaleQuantity()).sum();
+	public ResponseEntity<Sale> store(@RequestBody final Sale sale) {
+		final ArrayList<SaleItem> saleItemList = new ArrayList<SaleItem>();
+		final double saleTotal = sale.getSaleItem().stream().mapToDouble(o -> o.getSaleValue() * o.getSaleQuantity()).sum();
 		if (sale.getPaymentMethod() == 2 || saleTotal > sale.getClient().getCreditLimit()) {
 			return ResponseEntity.status(500).build();
 		}
 
-		for (SaleItem saleItem : sale.getSaleItem()) {
+		for (final SaleItem saleItem : sale.getSaleItem()) {
 			Product product = saleItem.getProduct();
 			product = productRepository.findById(product.getId()).get();
 			product.stockDecrement(saleItem.getSaleQuantity());
@@ -80,45 +81,60 @@ public class SaleBiz {
 
 	@GetMapping("list/client/sale")
 	@ResponseBody
-	ResponseEntity<Object> listSalesByClientAndPeriod(@RequestParam String clientName, @RequestParam String startDate, @RequestParam String endDate) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	ResponseEntity<Object> listSalesByClientAndPeriod(@RequestParam String clientName, @RequestParam final String startDate, @RequestParam final String endDate) {
+		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		Date parsedStartDate;
 		Date parsedEndDate;
 		try {
 			parsedStartDate = sdf.parse(startDate.replace("-", "/"));
 			parsedEndDate = sdf.parse(endDate.replace("-", "/"));
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			return ResponseEntity.status(500).body("Ocorreu um erro ao efetuar a busca. Contate o administrador");
 		}
 		clientName = "%" + clientName + "%";
-		List<Sale> saleList = repository.findByClientAndSaleDateInterval(clientName, parsedStartDate, parsedEndDate);
+		final List<Sale> saleList = repository.findByClientAndSaleDateInterval(clientName, parsedStartDate, parsedEndDate);
 		return ResponseEntity.ok(saleList);
 	}
 
 	@GetMapping("list/seller/sale")
 	@ResponseBody
-	ResponseEntity<Object> listSalesBySellerAndPeriod(@RequestParam String sellerName, @RequestParam String startDate, @RequestParam String endDate) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	ResponseEntity<Object> listSalesBySellerAndPeriod(@RequestParam String sellerName, @RequestParam final String startDate, @RequestParam final String endDate) {
+		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		Date parsedStartDate;
 		Date parsedEndDate;
 		try {
 			parsedStartDate = sdf.parse(startDate.replace("-", "/"));
 			parsedEndDate = sdf.parse(endDate.replace("-", "/"));
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			return ResponseEntity.status(500).body("Ocorreu um erro ao efetuar a busca. Contate o administrador");
 		}
 		sellerName = "%" + sellerName + "%";
-		List<Sale> saleList = repository.findBySellerAndSaleDateInterval(sellerName, parsedStartDate, parsedEndDate);
+		final List<Sale> saleList = repository.findBySellerAndSaleDateInterval(sellerName, parsedStartDate, parsedEndDate);
 		return ResponseEntity.ok(saleList);
+	}
+	
+	@GetMapping("report/client/sale")
+	ResponseEntity<Object> clientReport(@RequestParam final String clientId, @RequestParam final String startDate, @RequestParam final String endDate){
+		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		Date parsedStartDate;
+		Date parsedEndDate;
+		try {
+			parsedStartDate = sdf.parse(startDate.replace("-", "/"));
+			parsedEndDate = sdf.parse(endDate.replace("-", "/"));
+		} catch (final ParseException e) {
+			return ResponseEntity.status(500).body("Ocorreu um erro ao efetuar a busca. Contate o administrador");
+		}
+		String[] data = repository.clientReport(Long.parseLong(clientId), parsedStartDate, parsedEndDate).split(",");
+		return ResponseEntity.ok(data);
 	}
 
 	@DeleteMapping("sale/destroy")
 	@ResponseBody
-	public ResponseEntity<String> destroy(@RequestParam Long id){
-		Sale sale = repository.findById(id).get();
-		List<SaleItem> saleItemList = sale.getSaleItem();
-		for (SaleItem saleItem : saleItemList) {
-			Product product = saleItem.getProduct(); 
+	public ResponseEntity<String> destroy(@RequestParam final Long id){
+		final Sale sale = repository.findById(id).get();
+		final List<SaleItem> saleItemList = sale.getSaleItem();
+		for (final SaleItem saleItem : saleItemList) {
+			final Product product = saleItem.getProduct(); 
 			product.stockIncrement(saleItem.getSaleQuantity());
 			productRepository.save(product);
 			saleItemrepository.delete(saleItem);
