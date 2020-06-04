@@ -153,3 +153,26 @@ form button:hover{
 .main-menu.menu-dark .navigation li a span{
     font-size: 15px;
 }
+
+.paginate_button.next, .paginate_button.previous{
+    padding: 5px 10px;
+    border: 1px solid #333333;
+    background-color: #333333;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.paginate_button.previous{
+    margin-right: 10px;
+}
+
+.paginate_button.next{
+    margin-left: 10px;
+}
+
+.dataTables_paginate span a{
+    border: 1px solid #333333;
+    color:#333333;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
