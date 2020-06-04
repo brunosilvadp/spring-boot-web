@@ -22,8 +22,8 @@ import com.bruno.boticario.repository.SaleRepository;
 @Controller
 public class ClientBiz {
 	
-	private final ClientRepository repository;
-	private final SaleRepository saleRepository;
+	private ClientRepository repository;
+	private SaleRepository saleRepository;
 	
 	@Autowired
 	public ClientBiz(ClientRepository repository, SaleRepository saleRepository) {

@@ -176,3 +176,39 @@ form button:hover{
     padding: 5px 10px;
     border-radius: 10px;
 }
+
+.bg-gradient-x-info {
+  background-image : -webkit-gradient(linear, left top, right top, from(#0C84D1), to(#4EB4F5));
+  background-image : -webkit-linear-gradient(left, #0C84D1 0%, #4EB4F5 100%);
+  background-image :    -moz-linear-gradient(left, #0C84D1 0%, #4EB4F5 100%);
+  background-image :      -o-linear-gradient(left, #0C84D1 0%, #4EB4F5 100%);
+  background-image :         linear-gradient(to right, #0C84D1 0%, #4EB4F5 100%);
+  background-repeat : repeat-x;
+}
+
+.bg-gradient-x-warning {
+  background-image : -webkit-gradient(linear, left top, right top, from(#FF7216), to(#FFB07C));
+  background-image : -webkit-linear-gradient(left, #FF7216 0%, #FFB07C 100%);
+  background-image :    -moz-linear-gradient(left, #FF7216 0%, #FFB07C 100%);
+  background-image :      -o-linear-gradient(left, #FF7216 0%, #FFB07C 100%);
+  background-image :         linear-gradient(to right, #FF7216 0%, #FFB07C 100%);
+  background-repeat : repeat-x;
+}
+
+.bg-gradient-x-success {
+  background-image : -webkit-gradient(linear, left top, right top, from(#20A576), to(#4EDDAA));
+  background-image : -webkit-linear-gradient(left, #20A576 0%, #4EDDAA 100%);
+  background-image :    -moz-linear-gradient(left, #20A576 0%, #4EDDAA 100%);
+  background-image :      -o-linear-gradient(left, #20A576 0%, #4EDDAA 100%);
+  background-image :         linear-gradient(to right, #20A576 0%, #4EDDAA 100%);
+  background-repeat : repeat-x;
+}
+
+.bg-gradient-x-danger {
+  background-image : -webkit-gradient(linear, left top, right top, from(#FF1635), to(#FF7C8D));
+  background-image : -webkit-linear-gradient(left, #FF1635 0%, #FF7C8D 100%);
+  background-image :    -moz-linear-gradient(left, #FF1635 0%, #FF7C8D 100%);
+  background-image :      -o-linear-gradient(left, #FF1635 0%, #FF7C8D 100%);
+  background-image :         linear-gradient(to right, #FF1635 0%, #FF7C8D 100%);
+  background-repeat : repeat-x;
+}
