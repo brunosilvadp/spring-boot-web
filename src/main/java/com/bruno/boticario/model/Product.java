@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.bruno.boticario.exception.SisComException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -44,11 +45,12 @@ public class Product implements Comparable<Product>{
 	
 	@JsonCreator
     public Product(
-            @JsonProperty("code") final String code,
-			@JsonProperty("name") final String name, 
-            @JsonProperty("unitPrice") final Double unitPrice, 
-            @JsonProperty("stock") final Integer stock, 
-            @JsonProperty("minimumStock") final Integer minimumStock){
+            @JsonProperty("code") String code,
+			@JsonProperty("name") String name, 
+            @JsonProperty("unitPrice") Double unitPrice, 
+            @JsonProperty("stock") Integer stock, 
+			@JsonProperty("quantity") Integer quantity,
+            @JsonProperty("minimumStock") Integer minimumStock){
 		this.code = code;
 		this.name = name;
 		this.unitPrice = unitPrice;
@@ -58,12 +60,12 @@ public class Product implements Comparable<Product>{
 
 	// @JsonCreator
     // public Product(
-    //         @JsonProperty("id") final Long id,
-	// 		@JsonProperty("code") final String code,
-	// 		@JsonProperty("name") final String name, 
-    //         @JsonProperty("unitPrice") final Double unitPrice, 
-    //         @JsonProperty("stock") final Integer stock, 
-    //         @JsonProperty("minimumStock") final Integer minimumStock){
+    //         @JsonProperty("id") Long id,
+	// 		@JsonProperty("code") String code,
+	// 		@JsonProperty("name") String name, 
+    //         @JsonProperty("unitPrice") Double unitPrice, 
+    //         @JsonProperty("stock") Integer stock, 
+    //         @JsonProperty("minimumStock") Integer minimumStock){
 	// 	this.id = id;
 	// 	this.code = code;
 	// 	this.name = name;
@@ -72,7 +74,7 @@ public class Product implements Comparable<Product>{
 	// 	this.minimumStock = minimumStock;
     // }
 
-	public Product(Long id, final String code, final String name, final Double unitPrice, final Integer stock, final Integer minimumStock) {
+	public Product(Long id, String code, String name, Double unitPrice, Integer stock, Integer minimumStock) {
 		this.id = id;
 		this.code = code;
 		this.name = name;
@@ -89,7 +91,7 @@ public class Product implements Comparable<Product>{
 		return code;
 	}
 
-	public void setCode(final String code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
@@ -97,7 +99,7 @@ public class Product implements Comparable<Product>{
 		return name;
 	}
 
-	public void setName(final String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -110,7 +112,7 @@ public class Product implements Comparable<Product>{
 		return unitPrice;
 	}
 
-	public void setUnitPrice(final Double unitPrice) {
+	public void setUnitPrice(Double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
@@ -118,7 +120,7 @@ public class Product implements Comparable<Product>{
 		return stock;
 	}
 
-	public void setStock(final Integer stock) {
+	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
 
@@ -126,7 +128,7 @@ public class Product implements Comparable<Product>{
 		return minimumStock;
 	}
 
-	public void setMinimumStock(final Integer minimumStock) {
+	public void setMinimumStock(Integer minimumStock) {
 		this.minimumStock = minimumStock;
 	}
 
@@ -134,19 +136,19 @@ public class Product implements Comparable<Product>{
 		return registerDate;
 	}
 
-	public void setRegisterDate(final Date registerDate) {
+	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
 	}
 	
-	public void stockIncrement(final Integer quantity) {
+	public void stockIncrement(Integer quantity) {
 		this.stock += quantity;
 	}
 	
-	public void stockDecrement(final Integer quantity) {
-		if(this.stock > 0) {
-			this.stock -= quantity;			
+	public void stockDecrement(Integer quantity) throws SisComException {
+		this.stock -= quantity;			
+		if(this.stock < 0) {
+			throw new SisComException("Estoque Insuficiente.");
 		}
-		
 	}
 
 	@Override
@@ -156,7 +158,7 @@ public class Product implements Comparable<Product>{
 	}
 	
 	@Override
-	public int compareTo(final Product o) {
+	public int compareTo(Product o) {
 		return this.name.compareTo(o.name);
 	}
 

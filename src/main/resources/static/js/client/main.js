@@ -27,7 +27,6 @@ $('document').ready(function(){
 				'saleValue': item.unitPrice * item.quantity
 			}
 			delete object.product.unitPriceFormated;
-			delete object.product.quantity;
 			data['saleItem'].push(object);
 		})
 		$.ajax({
@@ -139,7 +138,7 @@ function addProduct(){
 			headers: { 
 				'Content-Type': 'application/json' 
 			},
-			url: `product/find?code=${productCode.val()}`,
+			url: `product/find?code=${productCode.val()}&quantity=${$(quantity).val()}`,
 			success: function(response){
 				response['quantity'] = quantity.val();
 				let shoppingData = shoppingTable.rows().data();

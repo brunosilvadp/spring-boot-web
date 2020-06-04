@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.bruno.boticario.exception.SisComException;
 import com.bruno.boticario.model.Product;
 import com.bruno.boticario.model.PurchaseItem;
 import com.bruno.boticario.model.SaleItem;
@@ -87,10 +89,15 @@ public class ProductBiz {
 	}
 	@GetMapping("product/find")
 	@ResponseBody
-	ResponseEntity<Object> find(@RequestParam String code) {
+	ResponseEntity<Object> find(@RequestParam String code, String quantity) {
 		Product product = repository.findOneByCode(code);
 		if(product == null){
 			return ResponseEntity.status(500).body("Produto não encontrado");
+		}
+		try {
+			product.stockDecrement(Integer.parseInt(quantity));
+		} catch (SisComException e) {
+			return ResponseEntity.status(500).body(e.getMessageError());
 		}
 		return ResponseEntity.ok(product);
 	}

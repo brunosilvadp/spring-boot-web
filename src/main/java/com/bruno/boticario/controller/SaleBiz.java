@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bruno.boticario.exception.SisComException;
 import com.bruno.boticario.model.Product;
 import com.bruno.boticario.model.Sale;
 import com.bruno.boticario.model.SaleItem;
@@ -61,14 +62,20 @@ public class SaleBiz {
 	public ResponseEntity<String> store(@RequestBody Sale sale) {
 		ArrayList<SaleItem> saleItemList = new ArrayList<SaleItem>();
 		double saleTotal = sale.getSaleItem().stream().mapToDouble(o -> o.getSaleValue()).sum();
-		if (sale.getPaymentMethod() == 2 || saleTotal > sale.getClient().getCreditLimit()) {
-			return ResponseEntity.status(500).build();
+		if (sale.getPaymentMethod() == 2) {
+			return ResponseEntity.status(500).body("Não é possível finalizar a venda com o método de pagamento: Venda a prazo através de Cheque pré-datado");
+		}else if(saleTotal > sale.getClient().getCreditLimit()){
+			return ResponseEntity.status(500).body("Não é possível finalizar a venda, pois o o valor da venda é superior ao crédito do cliente!");
 		}
 
 		for (SaleItem saleItem : sale.getSaleItem()) {
 			Product product = saleItem.getProduct();
 			product = productRepository.findById(product.getId()).get();
-			product.stockDecrement(saleItem.getSaleQuantity());
+			try {
+				product.stockDecrement(saleItem.getSaleQuantity());
+			} catch (SisComException e) {
+				return ResponseEntity.status(500).body(e.getMessageError());
+			}
 			productRepository.save(product);
 			saleItem.setProduct(product);
 			saleItemList.add(saleItemrepository.save(saleItem));
